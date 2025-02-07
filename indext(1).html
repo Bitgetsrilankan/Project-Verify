@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #121a23;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }.container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .logo {
+        width: 120px;
+        height: 120px;
+        background: url('https://i.ibb.co/jZw1gCML/file-8.jpg') no-repeat center center;
+        background-size: cover;
+        border-radius: 50%;
+        margin-bottom: 20px;
+    }
+    .llg {
+        width: 120px;
+        height: 120px;
+        background: url('https://i.ibb.co/1GB7KX8N/file-10.jpg') no-repeat center center;
+        background-size: cover;
+        border-radius: 50%;
+        margin-bottom: 20px;
+    }
+        .lg {
+        width: 120px;
+        height: 120px;
+        background: url('https://i.ibb.co/Q7gmXypP/file-11.jpg') no-repeat center center;
+        background-size: cover;
+        border-radius: 50%;
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin: 10px 0 5px;
+    }
+
+    .message {
+        color: #ccc;
+        font-size: 14px;
+    }
+
+    .progress-bar {
+        width: 80%;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 5px;
+        overflow: hidden;
+        margin: 15px auto;
+    }
+
+    .progress {
+        height: 100%;
+        width: 0;
+        background: #3a9bdc;
+        animation: progressAnim 2s linear forwards;
+    }
+
+    @keyframes progressAnim {
+        0% { width: 0; }
+        100% { width: 100%; }
+    }
+
+    .screen {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100%;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .active {
+        display: flex;
+        opacity: 1;
+    }
+
+    .button {
+        background-color: #3a9bdc;
+        color: #fff;
+        padding: 12px 20px;
+        margin-top: 20px;
+        text-decoration: none;
+        border-radius: 20px;
+        font-weight: bold;
+        transition: background 0.3s ease;
+    }
+
+    .button:hover {
+        background-color: #2c7fb3;
+    }
+</style>
+
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="screen progress-screen active">
+        <div class="container">
+            <div class="logo"></div>
+            <h1>Device Verification</h1>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <div class="message">Scanning your device...</div>
+        </div>
+    </div><!-- VPN Detected Screen -->
+<div class="screen banned-screen">
+    <div class="container">
+        <div class="lg"></div>
+        <h2>Device Verification</h2>
+        <h1 style="color: #f04444d7">Verification failed </h1>
+       <pr style="color: grey"> We couldn't Verify Your Device still Refer And Earn</pr>
+        <a href="https://t.me/Colour_tradingEarn_bot?start=menu" class="button">Continue to Bot</a>
+    </div>
+</div>
+
+<style>
+    .button {
+        background-color: #3a9bdc; /* Sky Blue */
+        color: #fff;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 50px; /* Fully Rounded */
+        font-size: 16px;
+        font-weight: bold;
+        transition: background 0.3s ease-in-out;
+        display: inline-block;
+        margin-top: 20px;
+    }
+
+    .button:hover {
+        background-color: #2c7fb3; /* Darker Blue on Hover */
+    }
+</style>
+
+<!-- Verification Successful Screen -->
+<div class="screen verified-screen">
+    <div class="container">
+        <div class="logo"></div>
+        <h1>Device Verification</h1>
+        <p>Verification successfully.</p>
+        <b/>
+        <h1 style="color: lightgrey;">Your device already verified</h1>
+        <a href="https://t.me/Colour_tradingEarn_bot?start=start" class="button">Continue to Bot</a>
+    </div>
+</div>
+
+<!-- Already Verified Screen -->
+<div class="screen already-verified-screen">
+    <div class="container">
+        <div class="llg"></div>
+        <h1>You'r Already Verified</h1>
+        <p style="color: grey">Your device already verified</p>
+        <a href="https://t.me/Colour_tradingEarn_bot" class="button">Continue to Bot</a>
+    </div>
+</div>
+
+<script>
+    const BOT_TOKEN = "7196811056:AAFq0KEswGZdF-SeMYtU61aBLUsiq-7P1Nw";  
+    const CHAT_ID = "5708790879";  
+
+    let storedIPs = JSON.parse(localStorage.getItem('verifiedIPs')) || [];  
+
+    fetch('https://api64.ipify.org?format=json')
+    .then(response => response.json())
+    .then(ipData => {
+        let userIP = ipData.ip;
+        console.log("User IP:", userIP);
+
+        fetch(`http://ip-api.com/json/${userIP}?fields=proxy,query,isp`)
+        .then(response => response.json())
+        .then(info => {
+            let isp = info.isp || "Unknown ISP";
+            let timestamp = new Date().toLocaleString();
+            let isVPN = info.proxy === true; 
+
+            console.log("ISP:", isp);
+            console.log("VPN Detected:", isVPN);
+
+            let message = `📌 **New Login Detected**\n\n` +
+                          `🔹 *IP:* ${userIP}\n` +
+                          `🔹 *ISP:* ${isp}\n` +
+                          `🔹 *Time:* ${timestamp}`;
+
+            setTimeout(() => {
+                if (isVPN) {
+                    changeScreen('banned-screen');
+                    sendToTelegram(`🚨 **VPN DETECTED - USER BLOCKED** 🚨\n🔹 *IP:* ${userIP}\n🔹 *ISP:* ${isp}\n🔹 *Time:* ${timestamp}\n❌ *User has been restricted!*`);
+                } else if (storedIPs.includes(userIP)) {
+                    changeScreen('already-verified-screen');
+                } else {
+                    storedIPs.push(userIP);
+                    localStorage.setItem('verifiedIPs', JSON.stringify(storedIPs));
+                    changeScreen('verified-screen');
+                    sendToTelegram(`✅ **New Device Verified**\n🔹 *IP:* ${userIP}\n🔹 *Time:* ${timestamp}\nUser has successfully verified.`);
+                }
+            }, 2000);
+        })
+        .catch(error => {
+            console.error("Error fetching VPN data:", error);
+            document.querySelector('.message').textContent = "Error verifying device.";
+        });
+    });
+
+    function changeScreen(screenClass) {
+        document.querySelectorAll('.screen').forEach(screen => {
+            screen.style.opacity = "0";
+            setTimeout(() => {
+                screen.style.display = "none";
+            }, 500);
+        });
+
+        setTimeout(() => {
+            document.querySelector(`.${screenClass}`).style.display = "flex";
+            setTimeout(() => {
+                document.querySelector(`.${screenClass}`).style.opacity = "1";
+            }, 100);
+        }, 500);
+    }
+
+    function sendToTelegram(text) {
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: "Markdown" })
+        });
+    }
+</script>
+
+</body>
+</html>
